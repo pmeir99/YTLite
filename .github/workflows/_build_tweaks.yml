@@ -50,7 +50,11 @@ jobs:
 
     steps:
       - name: Install Dependencies
-        run: brew install make ldid dpkg
+        run: |
+          # The macOS runner may contain an untrusted AWS Homebrew tap.
+          # This workflow does not use it, so remove it before installing dependencies.
+          brew untap aws/tap 2>/dev/null || true
+          brew install make ldid dpkg
 
       - name: Set PATH environment variable
         run: |
